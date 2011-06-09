@@ -1,10 +1,14 @@
-
 -module(logdb_sup).
 
 -behaviour(supervisor).
 
+-define(SERVER, ?MODULE).
+
 %% API
--export([start_link/0]).
+-export([
+    start_link/0,
+    start_child/1
+]).
 
 %% Supervisor callbacks
 -export([init/1]).
@@ -17,12 +21,16 @@
 %% ===================================================================
 
 start_link() ->
-    supervisor:start_link({local, ?MODULE}, ?MODULE, []).
+    supervisor:start_link({local, ?SERVER}, ?MODULE, []).
 
 %% ===================================================================
 %% Supervisor callbacks
 %% ===================================================================
 
 init([]) ->
-    {ok, { {one_for_one, 5, 10}, []} }.
+    {ok, { {simple_one_for_one, 0, 1}, [
+        ?CHILD(logdb_table, worker)
+    ] } }.
 
+start_child(Name) ->
+    supervisor:start_child(?SERVER, [Name]).

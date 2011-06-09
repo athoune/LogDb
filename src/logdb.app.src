@@ -1,7 +1,9 @@
 {application, logdb,
  [
-  {description, ""},
-  {vsn, "1"},
+  {description, "Append only database"},
+  {vsn, "0.1"},
+  {modules, [
+  ]},
   {registered, []},
   {applications, [
                   kernel,
