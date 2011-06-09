@@ -5,4 +5,5 @@
 main(_) ->
   ok = application:start(logdb),
   {ok, Popo} = logdb:new(popo),
-  io:format("~p~n", [Popo]).
+  ok = logdb:append(Popo, 42, {an_atom, 4807}),
+  ok = logdb:append(Popo, 43, {oups, "Some string"}).

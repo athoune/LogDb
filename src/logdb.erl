@@ -13,8 +13,8 @@ new(Table) ->
 add_index(_Pid, _Name, _Type) ->
     ok.
 
-append(_Pid, _Key, _Values) ->
-    ok.
+append(Pid, Key, Values) ->
+    gen_server:cast(Pid, {append, Key, Values}).
 
 -ifdef(TEST).
 -include_lib("eunit/include/eunit.hrl").

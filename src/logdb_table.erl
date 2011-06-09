@@ -9,9 +9,7 @@ handle_info/2, terminate/2, code_change/3]).
 
 -record(state, {name, hash, tree}).
 
--export([
-]).
-
+-export([]).
 
 %%====================================================================
 %% api callbacks
@@ -31,6 +29,7 @@ start_link(Name) ->
 %% Description: Initiates the server
 %%--------------------------------------------------------------------
 init([Name]) ->
+    io:format("Starting ~p [~p]~n", [Name, self()]),
     {ok, #state{
         name = Name,
         hash = dict:new(),
@@ -55,6 +54,9 @@ handle_call(_Request, _From, State) ->
 %%                                      {stop, Reason, State}
 %% Description: Handling cast messages
 %%--------------------------------------------------------------------
+handle_cast({append, Key, Values}, State) ->
+    io:format("[~p] ~p:~p~n", [self(), Key, Values]),
+    {noreply, State};
 handle_cast(_Msg, State) ->
     {noreply, State}.
 
